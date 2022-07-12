@@ -284,11 +284,95 @@
       </footer>
 
       <script>
+
+        function SearchSetting() {
+            var MenuTitle = document.getElementById('hc-nav-1-nav-title').parentNode;
+
+            var SearchDiv = document.createElement("div");
+            SearchDiv.setAttribute('style', 'display: flex; min-height: inherit;margin-left: 17px;margin-right: 17px;margin-bottom: 20px;box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);');
+
+            var SearchImg = document.createElement("img");
+            SearchImg.setAttribute('src', 'search.svg');
+
+            var newDiv = document.createElement("input");
+            newDiv.setAttribute('type', 'search');
+            newDiv.setAttribute('id', 'myInput');
+            newDiv.setAttribute('style', 'background-color:transparent;outline: none;border: none;width: -webkit-fill-available;');
+            newDiv.setAttribute('onkeyup', 'search()');
+            newDiv.setAttribute('onsearch', 'search()');
+
+            SearchDiv.appendChild(SearchImg);
+            SearchDiv.appendChild(newDiv);
+
+            MenuTitle.insertBefore(SearchDiv, MenuTitle.children[1]);
+        }
+		
+		
+        function search() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+
+            ul = document.getElementsByClassName('nav-content')[0].children[3];
+
+            li = ul.getElementsByTagName("li");
+
+            for (i = 0; i < li.length; i++) {
+                li[i].removeAttribute('search');
+
+                a = li[i].getElementsByTagName("a")[0];
+				if(a!=null){
+				  txtValue = a.textContent || a.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    if (li[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.tagName == 'li') {
+                       
+                    }
+                    if (li[i].parentNode.parentNode.parentNode.parentNode.tagName == 'li') {
+                      
+                    }
+                    try {
+                        var parentli = li[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+                        parentli.style.display = "";
+                        parentli.setAttribute('search', 'ON');
+                        parentli.classList.add("level-open");
+
+                        var parentli2 = li[i].parentNode.parentNode.parentNode.parentNode;
+                        parentli2.setAttribute('search', 'ON');
+                        parentli2.style.display = "";
+                        parentli2.classList.add("level-open");
+                    }
+                    catch (e) {
+
+                    }
+
+                    li[i].style.display = "";
+                    a.style.color = "#ff5252";
+                } else {
+                    if (li[i].getAttribute('search') != "ON") {
+                        li[i].style.display = "none";
+                    }
+                    a.style.color = "black";
+                }
+				}
+				
+              
+            }
+
+            if (input.value.length < 1) {
+
+                Nav.update(true);
+                SearchSetting();
+                document.getElementById("myInput").focus();
+            }
+        }
+		
+		var Nav;
         (function($) {
           'use strict';
 
           // call our plugin
-          var Nav = new hcOffcanvasNav('#main-nav', {
+           Nav = new hcOffcanvasNav('#main-nav', {
             disableAt: false,
             customToggle: '.toggle',
             levelSpacing: 40,
@@ -296,8 +380,12 @@
             levelTitles: true,
             levelTitleAsBack: true,
             pushContent: '#container',
-            labelClose: false
+            labelClose: false,
+			levelOpen: 'expand',
           });
+		  
+		    SearchSetting();
+		  
 
           // add new items to original nav
           $('#main-nav').find('li.add').children('a').on('click', function() {
