@@ -307,65 +307,69 @@
             MenuTitle.insertBefore(SearchDiv, MenuTitle.children[1]);
         }
 		
-		
-        function search() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
+		var searchtext;
 
-            ul = document.getElementsByClassName('nav-content')[0].children[3];
+		function search() {
+			var input, filter, ul, li, a, i, txtValue;
+			input = document.getElementById("myInput");
+			if (input.value == searchtext) {
+				return;
+			}
+			searchtext = input.value;
+			filter = input.value.toUpperCase();
 
-            li = ul.getElementsByTagName("li");
+			ul = document.getElementsByClassName('nav-content')[0].children[3];
 
-            for (i = 0; i < li.length; i++) {
-                li[i].removeAttribute('search');
+			li = ul.getElementsByTagName("li");
 
-                a = li[i].getElementsByTagName("a")[0];
-				if(a!=null){
-				  txtValue = a.textContent || a.innerText;
+			for (i = 0; i < li.length; i++) {
+				li[i].removeAttribute('search');
 
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    if (li[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.tagName == 'li') {
-                       
-                    }
-                    if (li[i].parentNode.parentNode.parentNode.parentNode.tagName == 'li') {
-                      
-                    }
-                    try {
-                        var parentli = li[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
-                        parentli.style.display = "";
-                        parentli.setAttribute('search', 'ON');
-                        parentli.classList.add("level-open");
+				a = li[i].getElementsByTagName("a")[0];
+				if (a != null) {
+					txtValue = a.textContent || a.innerText;
 
-                        var parentli2 = li[i].parentNode.parentNode.parentNode.parentNode;
-                        parentli2.setAttribute('search', 'ON');
-                        parentli2.style.display = "";
-                        parentli2.classList.add("level-open");
-                    }
-                    catch (e) {
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						if (li[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.tagName == 'li') {
 
-                    }
+						}
+						if (li[i].parentNode.parentNode.parentNode.parentNode.tagName == 'li') {
 
-                    li[i].style.display = "";
-                    a.style.color = "#ff5252";
-                } else {
-                    if (li[i].getAttribute('search') != "ON") {
-                        li[i].style.display = "none";
-                    }
-                    a.style.color = "black";
-                }
+						}
+						try {
+							var parentli = li[i].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+							parentli.style.display = "";
+							parentli.setAttribute('search', 'ON');
+							parentli.classList.add("level-open");
+
+							var parentli2 = li[i].parentNode.parentNode.parentNode.parentNode;
+							parentli2.setAttribute('search', 'ON');
+							parentli2.style.display = "";
+							parentli2.classList.add("level-open");
+						} catch (e) {
+
+						}
+
+						li[i].style.display = "";
+						a.style.color = "#ff5252";
+					} else {
+						if (li[i].getAttribute('search') != "ON") {
+							li[i].style.display = "none";
+						}
+						a.style.color = "black";
+					}
 				}
-				
-              
-            }
 
-            if (input.value.length < 1) {
 
-                Nav.update(true);
-                SearchSetting();
-                document.getElementById("myInput").focus();
-            }
-        }
+			}
+
+			if (input.value.length < 1) {
+
+				Nav.update(true);
+				SearchSetting();
+				document.getElementById("myInput").focus();
+			}
+		}
 		
 		var Nav;
         (function($) {
