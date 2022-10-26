@@ -7,7 +7,8 @@ JavaScript library for creating off-canvas multi-level navigations, using ARIA. 
 
 <img src="https://somewebmedia.github.io/hc-offcanvas-nav/hc-offcanvas-nav.png" width="440">
 
-
+### add white theme
+<img src="cover.png" width="440">
 
 ### Features
 - Multi-level menu support
